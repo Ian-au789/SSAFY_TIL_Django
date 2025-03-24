@@ -55,7 +55,21 @@ MTV 디자인 패턴 : Model / Template / View 를 분리해서 애플리케이�
 
 ## 요청과 응답
 
+데이터 흐름 : URLs -> View -> Template 
+
 1. urls.py 로 요청이 들어오면 적절한 views로 연결
+
+    from articles import views
+
+    path('articles/', views.index),
+
 2. view.py 에서 적절한 응답을 반환
+
+    def index(request):
+        return render(request, 'articles/index.html')
+
 3. models.py 와 template 폴더에서 필요한 객체 사용
+
+앱 폴더 내부에 templates/articles/index.html 생성
+
 4. 클라이언트에게 응답 반환 
