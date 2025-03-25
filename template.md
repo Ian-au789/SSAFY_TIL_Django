@@ -36,5 +36,24 @@ Django Template Language (DTL) : Template에서 조건, 반복, 변수 등의 �
 
 ### 요청과 응답
 
-HTML 'form' : http 요청을 서버에 보내는 가장 편리한 방법
+- form : 사용자로부터 할당된 데이터를 서버로 전송 
+
+데이터를 어디(action)로 어떤 방식(method)으로 요청할지
+
+- action : 입력 데이터가 전송될 url 지정, 지정하지 않으면 현재 form에 있는 페이지의 url로 보내짐
+
+- method : 데이터를 어떤 방식으로 보낼 것인지 정의, 데이터의 HTTP request methods (GET, POST) 지정
+
+- input : 사용자의 데이터를 입력 받을 수 있는 요소 (type 속성 값에 따라 다양한 유형의 입력 데이터를 받음)
+
+    - name 속성 : input의 핵심 속성, 사용자가 입력한 데이터에 붙이는 이름(key)
+
+
+Query String Parameters : 사용자의 입력 데이터를 url주소에 파라미터를 통해 서버로 보내는 방법, 문자열은 & 로 연결된 key=value 쌍으로 구성, 기본 url과는 ? 로 구분됨
+
+- HTTP request 객체 : form으로 전송한 데이터 뿐만 아니라 Django로 들어오는 모든 요청 관련 데이터가 담겨있음
+
+예시) request.GET.get('message) : 쿼리와 딕셔너리의 get 메서드를 사용해 키의 값을 조회
+
+
 
