@@ -73,3 +73,41 @@ MTV 디자인 패턴 : Model / Template / View 를 분리해서 애플리케이�
 앱 폴더 내부에 templates/articles/index.html 생성
 
 4. 클라이언트에게 응답 반환 
+
+
+예시) 
+
+1. urls.py (프로젝트 관리)
+
+    from django.contrib import admin
+    from django.urls import path
+    from articles import views
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('articles/', views.index),
+    ]
+
+2. views.py (앱)
+
+    from django.shortcuts import render
+
+    # Create your views here.
+    def index(request):
+        # (메인 페이지가 담겨있는) 응답 객체를 반환
+        return render(request, 'articles/index.html')
+
+3. template 폴더 안의 html파일 
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    </head>
+    <body>
+    <h1>장고 하이!</h1>
+    </body>
+    </html>
+

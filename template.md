@@ -24,6 +24,10 @@ Django Template Language (DTL) : Template에서 조건, 반복, 변수 등의 �
 - 일부 태그는 시작과 종료 태그가 필요 {% tags %}
 - 약 24개의 built - in tags 공식문서에서 확인 
 
+예시) 
+- {% if %} {% elif %} { % else %} { % endif %}
+- { % for book in books %}  {% endfor %}
+
 4. Comments : 주석
 
 ### Template Inheritance
