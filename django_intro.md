@@ -92,7 +92,6 @@ MTV 디자인 패턴 : Model / Template / View 를 분리해서 애플리케이�
 
     from django.shortcuts import render
 
-    # Create your views here.
     def index(request):
         # (메인 페이지가 담겨있는) 응답 객체를 반환
         return render(request, 'articles/index.html')
