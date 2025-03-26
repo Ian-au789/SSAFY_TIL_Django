@@ -30,12 +30,57 @@ Django Template Language (DTL) : Template에서 조건, 반복, 변수 등의 �
 
 4. Comments : 주석
 
-### Template Inheritance
+### 템플릿 상속 
 : 페이지의 공통 요소를 포함하고 하위 템플릿이 재정의 할 수 있는 공간을 정의하는 기본 'skeleton' 템플릿을 작성해 상속 구조 구축
 
 - extends : 반드시 자식 템플릿 최상단에 작성 (2개 이상 사용 불가), 자식 템플릿이 부모 템플릿을 확장한다는 것 알림
 
 - block : 하위 템플릿에서 재정의 할 수 있는 블록을 정의 (하위 템플릿이 작성할 수 있는 공간 지정)
+
+예시 ) 
+
+1. 상위 템플릿 (주로 base.html)
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할 일 목록 관리 프로젝트</title>
+    </head>
+    <body>
+    <a href="/todos/">[MAIN]</a> | 
+    <a href="/todos/create_todo">[CREATE]</a>
+    {% block content %}                        # 하위 템플릿의 내용이 들어간 공간 지정 
+    {% endblock content %}
+    </body>
+    </html>
+
+
+2. 하위 템플릿 
+
+
+        {% extends "base.html" %}              # 상위 템플릿을 확장한다는 것 선언 
+
+        {% block content %}                    # 하위 템플릿의 내용을 재정의할 공간 지정 
+        <h1>할 일 목록 관리 프로젝트 메인 페이지</h1>
+        <p>이 곳에서 할 일 목록을 관리합니다.</p>
+        <ul>
+            <li>{{ message }}</li>
+        </ul>
+        {% endblock content %}
+
+
+
+### 추가 템플릿 경로 지정
+
+: settings.py의 TEMPLATE 리스트에 접근해서 경로 추가
+
+
+    'DIRS' : [
+        BASE_DIR / 'templates',    : 추가하고자 하는 새로운 폴더 이름 (최상단에서 시작)
+    ]
 
 
 ### 요청과 응답
@@ -43,6 +88,13 @@ Django Template Language (DTL) : Template에서 조건, 반복, 변수 등의 �
 - form : 사용자로부터 할당된 데이터를 서버로 전송 
 
 데이터를 어디(action)로 어떤 방식(method)으로 요청할지
+
+
+    <form action="/todos/" method="GET">
+        <input type="text" id="message" name="message">
+        <input type="submit">
+    </form>
+
 
 - action : 입력 데이터가 전송될 url 지정, 지정하지 않으면 현재 form에 있는 페이지의 url로 보내짐
 
@@ -60,4 +112,48 @@ Query String Parameters : 사용자의 입력 데이터를 url주소에 파라�
 예시) request.GET.get('message) : 쿼리와 딕셔너리의 get 메서드를 사용해 키의 값을 조회
 
 
+1. views.py의 throw 함수가 html로 안내
+
+
+    def throw(request):
+        return render(request, 'articles/throw.html')
+
+
+2. throw.html에서 전송할 키워드 입력
+
+
+    {% extends "articles/base.html" %}
+
+    {% block content %}
+    <h1>Throw</h1>
+    {% comment %} <form action="http://127.0.0.1:8000/catch/" method="GET"> {% endcomment %}
+    {% comment %} <form action="/catch/" method="GET"> {% endcomment %}
+    <form action="{% url "articles:catch" %}" method="GET">
+        <input type="text" name="message">
+        <input type="submit">
+    </form>
+    {% endblock content %}
+
+
+3. views.py의 catch함수가 전송받은 값 변수에 저장하고 html로 안내 
+
+
+    def catch(request):
+
+    message = request.GET.get('message')
+
+    context = {
+        'message': message,
+    }
+    return render(request, 'articles/catch.html', context)
+
+
+4. catch.html이 전송받은 키워드 출력 
+
+
+    {% extends "articles/base.html" %}
+    {% block content %}
+    <h1>Catch</h1>
+    <h2>{{ message }}를 받았습니다.</h2>
+    {% endblock content %}
 

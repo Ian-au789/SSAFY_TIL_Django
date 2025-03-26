@@ -79,24 +79,28 @@ MTV 디자인 패턴 : Model / Template / View 를 분리해서 애플리케이�
 
 1. urls.py (프로젝트 관리)
 
+
     from django.contrib import admin
     from django.urls import path
     from articles import views
 
     urlpatterns = [
         path('admin/', admin.site.urls),
-        path('articles/', views.index),
+        path('articles/', views.index),     # 해당 경로로 온 요청을 해당 views 파일의 함수로 전송 
     ]
 
+
 2. views.py (앱)
+
 
     from django.shortcuts import render
 
     def index(request):
-        # (메인 페이지가 담겨있는) 응답 객체를 반환
-        return render(request, 'articles/index.html')
+        return render(request, 'articles/index.html')   # template에 있는 html 파일과 함께 응답 반환 
+
 
 3. template 폴더 안의 html파일 
+
 
     <!DOCTYPE html>
     <html lang="en">
@@ -109,4 +113,5 @@ MTV 디자인 패턴 : Model / Template / View 를 분리해서 애플리케이�
     <h1>장고 하이!</h1>
     </body>
     </html>
+
 
