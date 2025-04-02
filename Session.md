@@ -1,4 +1,4 @@
-# Authentication System 01
+# Authentication System
 
 HTTP : HTML 문서와 같은 리소스들을 가져올 수 있도록 해주는 규약, 웹에서 이루어지는 모든 데이터 교환의 기초 
 
