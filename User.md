@@ -27,11 +27,34 @@ get_user_model() : 현재 프로젝트에서 활성화된 사용자 모델을 �
 
 auth_login(request, user) : 회원가입 성공한 user 객체 자동 로그인 
 
+
+    def signup(request):
+        if request.method == 'POST':
+            form = CustomUserCreationForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                auth_login(request, user)
+                return redirect('profiles:index')
+        else:
+            form = CustomUserCreationForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'accounts/signup.html', context)
+
+
 ### 회원 탈퇴
 
 : User 객체를 삭제 
 
 request.user에서 현재 로그인한 User 정보를 가져올 수 있음 
+
+
+    def delete(request):
+        if request.method == 'POST':
+            request.user.delete()
+            auth_logout(request)
+            return redirect('profiles:index')
 
 
 ### 회원 정보 수정
@@ -43,6 +66,21 @@ UserChangeForm() : 회원정보 수정 시 사용자 입력 데이터를 받는 
 User 모델의 모든 정보들이 출력되지 않게 form에서 조정 필요 
 
 instance 넘겨주기
+
+
+    def update(request):
+        if request.method == 'POST':
+            form = CustomUserChangeForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                return redirect('profiles:index')
+        else:
+            form = CustomUserChangeForm(instance=request.user)
+        context = {
+            'form': form,
+        }
+        return render(request, 'accounts/update.html', context)
+
 
 ### 비밀번호 변경 
 
@@ -60,6 +98,21 @@ django는 비밀번호 변경 페이지를 회원정보 수정 form 하단에 �
 update_session_auth_hash(request, user) : 암호 변경 시 세션 무효화를 막아주는 함수, 바뀐 암호의 세션 데이터로 자동 갱신 
 
 
+    def change_password(request, user_pk):
+        if request.method == 'POST':
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)
+                return redirect('profiles:index')
+        else:
+            form = PasswordChangeForm(request.user)
+        context = {
+            'form': form,
+        }
+        return render(request, 'accounts/change_password.html', context)
+
+
 ### 사용자 접근 제한
 
 is_authenticated : 사용자가 인증 되었는지 여부를 알 수 있는 User model 속성
@@ -74,3 +127,15 @@ login_required : 인증된 사용자에 대해서만 view 함수를 실행시키
 
     @login_required 
 
+
+### import libraries
+
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+
+from django.contrib.auth import login as auth_login
+
+from django.contrib.auth import logout as auth_logout
+
+from django.contrib.auth import update_session_auth_hash
+
+from django.contrib.auth.decorators import login_required
