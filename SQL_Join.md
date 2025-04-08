@@ -27,9 +27,6 @@
 
 - FOREIGN KEY : 다른 테이블과의 외래 키 관계를 정의 
 
-
-예시) 
-
     PRAGMA table_info('examples');        # 테이블 스키마 구조 확인 
     
     CREATE TABLE examples(
