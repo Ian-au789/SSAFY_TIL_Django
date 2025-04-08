@@ -70,6 +70,9 @@ RDBMS : 관계형 데이터베이스를 관리하는 소프트웨어 프로그�
 
 실행 순서 : FROM -> WHERE -> GROUOP BY -> HAVING -> SELECT -> ORDER BY -> LIMIT 
 
+
+## DQL 
+
 ### SELECT
 
 : 테이블에서 데이터를 조회하는 명령어 
