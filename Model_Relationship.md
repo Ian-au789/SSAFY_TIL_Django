@@ -28,4 +28,30 @@
 - related manager : N:1, M:N 관계에서 역참조 시에 사용하는 매니저, '모델명_set' 형태로 자동 생성 
 
 
+## 댓글 구현
 
+    def detail(request, author_pk):
+        author = Author.objects.get(pk=author_pk)
+        book_form = BookForm()
+        books = author.book_set.all()
+        context = {
+            'author': author,
+            'book_form': book_form,
+            'books': books,
+        }
+        return render(request, 'libraries/detail.html', context)
+
+
+    def books_create(request, author_pk):
+        author = Author.objects.get(pk=author_pk)
+        book_form = BookForm(request.POST)
+        if book_form.is_valid():
+            book = book_form.save(commit = False)
+            book.author = author
+            book.save()
+            return redirect('libraries:detail', author.pk)
+        context = {
+            'author': author,
+            'book_form': book_form,
+        }
+        return render(request, 'libraries/detail.html', context)
