@@ -29,3 +29,4 @@ JavaScript : Web의 동적 기능을 구현하기 위한 프로그래밍 언어
 
 
 
+is it fine? 
